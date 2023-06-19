@@ -1,9 +1,11 @@
 <?php
-// error_reporting(0);
+error_reporting(0);
 // Additional headers which may be sent along with the CORS request
 header('Access-Control-Allow-Headers: X-Requested-With,Authorization,Content-Type');
 // Specify domains from which requests are allowed
 header('Access-Control-Allow-Origin: *');
+// header("Content-Type: text/html");
+header('Content-Type: application/json');
 // includes
 include("pages/database/dbconnection.php");
 
