@@ -4,7 +4,7 @@ include('database/dbconnection.php');
 
 // Read the JSON file in PHP
 // $jsondata = file_get_contents('jsons/dataCa.json');
-// $jsondata = file_get_contents('jsons/dataIN.json');
+$jsondata = file_get_contents('jsons/dataIN.json');
 
 // Convert JSON String into PHP Array
 $data = json_decode($jsondata, JSON_OBJECT_AS_ARRAY);

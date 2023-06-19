@@ -40,7 +40,7 @@ function getHoliday($params)
 {
     global $conn;
 
-    if (empty($params['month']) && empty($params['day']) && empty($params['country'])) {
+    if (empty($params['month']) && empty($params['day']) && empty($params['country']) && empty($params['year'])) {
         $data = [
             "status" => 422,
             "message" => "Plz Fill Fields",
@@ -49,20 +49,20 @@ function getHoliday($params)
         echo json_encode($data);
     } else {
 
-        $month = mysqli_real_escape_string($conn, $params["month"]);
-        $day = mysqli_real_escape_string($conn, $params["day"]);
-        $country = mysqli_real_escape_string($conn, $params["country"]);
+        $month = $params["month"];
+        $day = $params["day"];
+        $country = $params["country"];
+        $year = $params["year"];
 
+        $query = "SELECT * FROM `api_holidays` WHERE `country` = '$country' ";
         if ($params["month"]) {
-            $query = "SELECT * FROM api_holidays WHERE date_month=$month";
+            $query .= "AND `date_month` LIKE '%$month%' ";
         } 
-        elseif($params["day"]) {
-            $query = "SELECT * FROM api_holidays WHERE date_day=$day";
+        if ($params["day"]) {
+            $query .= "AND `date_day` LIKE '%$day%' ";
         }
-        elseif($params["country"]) {
-            $query = "SELECT * FROM api_holidays WHERE country='$country'";
-        }else{
-            $query = "SELECT * FROM api_holidays";
+        if ($params["year"]) {
+            $query .= "AND `date_year LIKE '%$year%' ";
         }
 
         $result = mysqli_query($conn, $query);
@@ -80,9 +80,9 @@ function getHoliday($params)
             } else {
                 $data = [
                     "status" => 404,
-                    "message" => "Holidays Not Found",
+                    "message" => "Plz Enter Country field",
                 ];
-                header("HTTP/1.1 404 Holidays Not Found");
+                header("HTTP/1.1 404 Plz Enter Country field");
                 echo json_encode($data);
             }
         } else {
